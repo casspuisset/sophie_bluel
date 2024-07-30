@@ -7,6 +7,7 @@ exports.findAll = async (req, res) =>  {
 }
 
 exports.create = async (req, res) => {
+	return res.status(418).json({ controller : "ptdrtki"});
 	const host = req.get('host');
 	const title = req.body.title;
 	const categoryId = req.body.category;

@@ -9,6 +9,9 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+		crossorigin="anonymous" referrerpolicy="no-referrer">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
@@ -16,7 +19,7 @@
 
 <body>
 	<div id="edition_mode">
-		<p>icone édition</p>
+		<i class="fa-solid fa-pen-to-square"></i>
 		<p>Mode édition</p>
 	</div>
 	<header>
@@ -26,7 +29,7 @@
 				<li><a href="index.html">projets</a></li>
 				<li><a href="#">contact</a></li>
 				<li><a href="login.html" class="login" id="login_link"></a></li>
-				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
 			</ul>
 		</nav>
 	</header>
@@ -51,38 +54,44 @@
 				<h2>Mes Projets</h2>
 				<!--modale de modification-->
 				<dialog>
-					<div class="modale_nav">
-						<button id="previously">Previously</button>
-						<h2>Gallerie photo</h2>
-
-						<button id="closing">Fermer</button>
-					</div>
-					<div class="modale_gallery"><!-- Apercu images gallerie --></div>
-
-
-					<!--Formulaire d'ajout de photo dans la gallerie-->
-					<form enctype="multipart/form-data" method="post" id="add_form" name="add_form">
-						<div class="add_photo">
-							<input type="file" id="file_input" onchange="previewImage()">
-							<div id="previewImageContainer"></div>
-							<!-- zone de test - fin-->
-							<p>+ Ajouter photo</p>
-							<p>jpg, png : 4mo max</p>
+					<div class="modale_wrapper">
+						<div class="modale_nav">
+							<i id="previously" class="fa-solid fa-arrow-left"></i>
+							<h3>Gallerie photo</h3>
+							<i id="closing" class="fa-solid fa-xmark"></i>
 						</div>
-						<label for="add_title">Titre</label>
-						<input type="text" name="add_title" id="add_title" required>
-						<label for="add_category">Catégorie</label>
-						<select name="add_category" id="add_category" value="" required>
-							<option value="">Texte de base</option>
-						</select>
-						<input type="submit" form="add_form" id="submit_form" value="Valider"></input>
-					</form>
-					<div id="output"></div>
-					<!--fin du formulaire-->
 
-					<button id="add_photo_window">Ajouter une photo</button>
+						<div class="modale_gallery"><!-- Apercu images gallerie --></div>
+
+						<!--Formulaire d'ajout de photo dans la gallerie-->
+						<form enctype="multipart/form-data" method="post" id="add_form" name="add_form">
+							<div class="add_photo">
+								<input type="file" id="file_input" onchange="previewImage()">
+								<div id="previewImageContainer"></div>
+								<p>+ Ajouter photo</p>
+								<p>jpg, png : 4mo max</p>
+							</div>
+							<label for="add_title">Titre</label>
+							<input type="text" name="add_title" id="add_title" required>
+							<label for="add_category">Catégorie</label>
+							<select name="add_category" id="add_category" value="" required>
+								<option value=""></option>
+								<option value="Objets">Objets</option>
+								<option value="Appartements">Appartements</option>
+								<option value="Hotels & restaurants">Hotels & restaurants</option>
+							</select>
+							<input type="submit" form="add_form" id="submit_form" value="Valider"></input>
+						</form>
+						<div id="output"></div>
+						<!--fin du formulaire-->
+
+						<button id="add_photo_window">Ajouter une photo</button>
+					</div>
 				</dialog>
-				<button class="edit_modale">Modifier</button>
+				<div class="edit_modale">
+					<i class="fa-solid fa-pen-to-square"></i>
+					<p>Modifier</p>
+				</div>
 				<!--fin de la modale de modification-->
 			</div>
 

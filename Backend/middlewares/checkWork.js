@@ -1,5 +1,4 @@
 module.exports = (req, res, next) => {
-
 	try{
 		const host = req.get('host');
 		const title = req.body.title.trim() ?? undefined;

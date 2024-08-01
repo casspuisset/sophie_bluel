@@ -1,5 +1,4 @@
 module.exports = (req, res, next) => {
-	return res.status(418).json({ check : "ptdrtki"});
 
 	try{
 		const host = req.get('host');

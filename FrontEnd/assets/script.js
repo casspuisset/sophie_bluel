@@ -144,7 +144,7 @@ async function modale() {
     const addButton = document.getElementById("add_photo_window"); //bouton pour changer la fenêtre de la modale
     addButton.addEventListener("click", () => {
         clearModale();
-        addPost();
+        addPost(works);
     });
 
     //soumet le formulaire au serveur
@@ -154,13 +154,6 @@ async function modale() {
         clearModale();
         postNewImage();
     });
-
-    //fonction de retour à la galerie de la modale
-    const previouslyButton = document.getElementById("previously"); //bouton de retour en arrière dans la modale
-    previouslyButton.addEventListener("click", () => {
-        clearModale();
-        showModaleGallery(works);
-    })
 
     //ferme la modale
     const closeButton = document.getElementById("closing"); //bouton de fermeture de la modale
@@ -242,17 +235,23 @@ async function showModaleGallery(works) {
 }
 
 //affichage de la partie ajout d'image
-async function addPost() {
+async function addPost(works) {
 
     let previouslyButton = document.getElementById("previously");
     let addForm = document.getElementById("add_form");
 
     previouslyButton.style.visibility = "visible";
     addForm.style.display = "flex";
+
+    previouslyButton.addEventListener("click", () => {
+        clearModale();
+        showModaleGallery(works);
+    })
 }
 
 //fonction pour effacer le contenu de la modale lors des interactions avec les boutons
 function clearModale() {
+    let previouslyButton = document.getElementById('previously')
     let divModaleGallery = document.querySelector(".modale_gallery");
     let divFormGallery = document.getElementById("add_form");
     //let divCategory = document.getElementById("add_category");
@@ -261,14 +260,6 @@ function clearModale() {
     divFormGallery.style.display = "none";
     previouslyButton.style.visibility = "hidden";
 }
-
-
-//reviens à l'écran initial de la modale
-const previouslyButton = document.getElementById("previously"); //bouton de retour en arrière dans la modale
-previouslyButton.addEventListener("click", () => {
-    clearModale();
-    showModaleGallery();
-})
 
 //fonction de fetch POST
 async function postNewImage() {
@@ -306,13 +297,15 @@ async function deletePost(i, works) {
             'authorization': `Bearer ${token}`,
         },
     }).then(async (response) => {
-        if(response===200) {
+        if(response.status===204) {
             alert("La photo a bien été supprimée");
             reloadDelete(i, works)
-        } else if(response===401) {
+        } else if(response.status===401) {
             alert("Vous n'avez pas l'autorisation pour supprimer cette photo")
-        } else {
+        } else if(response.status===500) {
             alert("Echec dans la suppression")
+        } else {
+            alert(response.status)
         }
     })
 }

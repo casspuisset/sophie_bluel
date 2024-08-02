@@ -66,10 +66,15 @@
 						<!--Formulaire d'ajout de photo dans la gallerie-->
 						<form enctype="multipart/form-data" method="post" id="add_form" name="add_form">
 							<div class="add_photo">
-								<input type="file" id="file_input" onchange="previewImage()">
-								<div id="previewImageContainer"></div>
-								<p>+ Ajouter photo</p>
-								<p>jpg, png : 4mo max</p>
+								<div id="preview_image_container"></div>
+								<!--<div id="choose_new_photo">-->
+									<i class="fa-regular fa-image"></i>
+									<label for="file_input" class="file_input_wrapper">
+										+ Ajouter photo
+									</label>
+									<input type="file" id="file_input" onchange="previewImage()">
+									<p>jpg, png : 4mo max</p>
+								<!--</div>-->
 							</div>
 							<label for="add_title">Titre</label>
 							<input type="text" name="add_title" id="add_title" required>
@@ -80,12 +85,13 @@
 								<option value="Appartements">Appartements</option>
 								<option value="Hotels & restaurants">Hotels & restaurants</option>
 							</select>
-							<input type="submit" form="add_form" id="submit_form" value="Valider"></input>
 						</form>
 						<div id="output"></div>
 						<!--fin du formulaire-->
-
-						<button id="add_photo_window">Ajouter une photo</button>
+						<div class="modale_footer">
+							<input type="submit" form="add_form" id="submit_form" value="Valider"></input>
+							<button id="add_photo_window">Ajouter une photo</button>
+						</div>
 					</div>
 				</dialog>
 				<div class="edit_modale">

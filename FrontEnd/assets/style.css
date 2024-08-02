@@ -285,6 +285,7 @@ li:hover {
 .filterButton:hover {
 	color: white;
 	background-color: #1D6154;
+	cursor: pointer;
 }
 
 /* fin partie filtres */
@@ -340,6 +341,31 @@ li:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+input[type="file"] {
+	display: none
+}
+
+.file_input_wrapper {
+	border: 1px solid #ccc;
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 500;
+	color: #306685;
+	background-color: #CBD6DC;
+	width: 180px;
+	text-align: center;
+	border-radius: 50px;	
+}
+
+.fa-image {
+	display: block;
+	color: #306685;
+	background-color: #E8F1F6;
+	font-size: -webkit-xxx-large;
+}
+
 input[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
@@ -349,6 +375,7 @@ input[type="submit"] {
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
+	cursor: pointer;
 }
 
 footer nav ul {
@@ -359,10 +386,10 @@ footer nav ul {
 
 /* Modale script */
 dialog {
-	width: 40%;
+	width: 35%;
 	border-radius: 10px;
 	border-color: white;
-	padding: 20px;
+	padding: 2%;
 }
 
 .modale_wrapper {
@@ -375,29 +402,60 @@ dialog {
 .modale_nav {
 	display: flex;
 	justify-content: space-between;
+}
 
+.modale_nav i {
+	cursor: pointer;
+	font-size: large;
 }
 
 .modale_gallery {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	justify-content: center;/*non-définitif*/
 	gap: 10px;
 }
 
 .modale_gallery figure {
 	width: 15%;
+	position: relative;
+	box-sizing: border-box;
 }
 
 .modale_gallery img {
 	width: 100%;
+	display: block;
+}
+
+.fa-trash-can {
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 
 .modale_gallery i {
 	color: white;
 	background-color: black;
 	padding: 3px;
+	cursor: pointer;
 }
+
+#add_title {
+		height: 50px;
+		font-size: 1.2em;
+		border: none;
+		box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#add_category {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
 #previously {
 	visibility: hidden;
 }
@@ -418,11 +476,46 @@ dialog {
 	padding: 20px 0;
 	width: 100%;
 }
+/*
+#preview_image_container {
+		background-color: #E8F1F6;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 20px 0;
+		width: 100%;
+}*/
 
 .add_photo p {
 	background-color: #E8F1F6;
 }
 
+.modale_footer {
+	display: flex;
+	justify-content: center;
+	border-top: solid 1px #1D6154;
+}
+
+#submit_form {
+	display: none;
+}
+
+#add_photo_window {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin: 2em auto;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px;
+	cursor: pointer;
+}
+
+.edit_modale {
+	cursor: pointer;
+}
 
 /* Login page */
 

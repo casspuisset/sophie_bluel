@@ -134,10 +134,18 @@ async function modale() {
     //ouvre la modale
     const dialog = document.querySelector("dialog"); //fenetre modale
     const showButton = document.querySelector(".edit_modale"); //bouton d'ouverture de la modale    
+
+
     showButton.addEventListener("click", () => {
         dialog.showModal();
         clearModale();
         showModaleGallery(works);
+        
+        //vérification de l'état du nav de la modale
+        let submitButton = document.getElementById("submit_form");
+        let nextButton = document.getElementById("add_photo_window");
+        submitButton.style.display = "none";
+        nextButton.style.display = "block";
     })
 
     //passe à l'affichage de la modale editable
@@ -172,8 +180,12 @@ modale();
 function previewImage() {
     const fileInput = document.getElementById('file_input');
     const file = fileInput.files[0];
-    if (file === undefined) { return };
-    const imagePreviewContainer = document.getElementById('previewImageContainer');
+
+    if (file === undefined) {
+        return
+    };
+
+    const imagePreviewContainer = document.getElementById('preview_image_container');
 
     if (file.type.match('image.*')) {
         const reader = new FileReader();
@@ -183,7 +195,7 @@ function previewImage() {
             const image = new Image();
 
             image.addEventListener('load', function () {
-                imagePreviewContainer.innerHTML = ''; // Vider le conteneur au cas où il y aurait déjà des images
+                imagePreviewContainer.innerHTML = '';
                 imagePreviewContainer.appendChild(image);
             });
 
@@ -194,7 +206,15 @@ function previewImage() {
         });
 
         reader.readAsDataURL(file);
+        /*let containerImage = document.getElementById(".choose_new_photo");
+        containerImage.style.display = "none";*/
+
     }
+}
+
+function cleanPreviewImage() {
+    const imagePreviewContainer = document.getElementById('preview_image_container');
+    imagePreviewContainer.innerHTML = '';
 }
 
 //determine l'id de catégorie à envoyer via la requête POST
@@ -239,12 +259,18 @@ async function addPost(works) {
 
     let previouslyButton = document.getElementById("previously");
     let addForm = document.getElementById("add_form");
+    let submitButton = document.getElementById("submit_form");
+    let nextButton = document.getElementById("add_photo_window");
 
     previouslyButton.style.visibility = "visible";
     addForm.style.display = "flex";
+    submitButton.style.display = "flex";
+    nextButton.style.display = "none";
 
     previouslyButton.addEventListener("click", () => {
         clearModale();
+        submitButton.style.display = "none";
+        nextButton.style.display = "block";
         showModaleGallery(works);
     })
 }
@@ -261,7 +287,7 @@ function clearModale() {
     previouslyButton.style.visibility = "hidden";
 }
 
-//fonction de fetch POST
+//fonction d'envoi du formulaire de création d'image
 async function postNewImage() {
     //récupération du token pour l'header
     const token = sessionStorage.getItem("token");
@@ -283,13 +309,27 @@ async function postNewImage() {
             'authorization': `Bearer ${token}`,
         },
         body: formData,
-    });
+    }).then((response) => {
+        if (response.status === 201) {
+            alert("L'image a été envoyée avec succès");
+            return response.json();
+        } else if (response.status === 400) {
+            alert("Il y a une erreur avec les informations envoyées");
+        } else if (response.status === 401) {
+            alert("Vous n'êtes pas autorisé à poster de nouvelles images");
+        } else {
+            alert("Une erreur inconnue est survenue")
+        }
+    }
+    ).then((response) => {
+        changeWithPost();
+    }).catch((error) => { throw (error) });
 }
 
 //supprime les éléments dans le serveur
 async function deletePost(i, works) {
     const token = sessionStorage.getItem("token");
-    let deleteUrl = 'http://localhost:5678/api/works/'+i;
+    let deleteUrl = 'http://localhost:5678/api/works/' + works[i].id;
 
     await fetch(deleteUrl, {
         method: "DELETE",
@@ -297,30 +337,41 @@ async function deletePost(i, works) {
             'authorization': `Bearer ${token}`,
         },
     }).then(async (response) => {
-        if(response.status===204) {
+        if (response.status === 204) {
             alert("La photo a bien été supprimée");
-            reloadDelete(i, works)
-        } else if(response.status===401) {
+        } else if (response.status === 401) {
             alert("Vous n'avez pas l'autorisation pour supprimer cette photo")
-        } else if(response.status===500) {
+        } else if (response.status === 500) {
             alert("Echec dans la suppression")
         } else {
             alert(response.status)
         }
-    })
+    }).then(
+        changeWithPost()
+    ).catch((error) => { throw (error) })
 }
 
-async function reloadDelete(i, works) {
-
-    let newArray = Array.from(works);
-    newArray = newArray.filter((work) => work.id !== i);
-    createWorks(newArray);
+//raffraichis la page après l'ajout ou la suppression d'une photo
+async function changeWithPost() {
+    const worksResponse = await fetch('http://localhost:5678/api/works');
+    let works = await worksResponse.json();
     clearModale();
-    showModaleGallery(newArray)   
+    createWorks(works);
+    showModaleGallery(works);
 }
 
-/* fin modale */
+//fonction pour fermer la modale en cas de click en dehors
+function closeOnClickOutside() {
+    document.addEventListener("click", function(event) {
+        var dialog = document.querySelector("dialog");
+        if (!dialog.contains(event.target)) {
+            clearModale();
+            dialog.close();
+        }
+    });
+}
 
+//fonction pour la déconnection de l'utilisateur
 function disconnect() {
     let disconnectButton = document.querySelector(".logout");
     disconnectButton.addEventListener("click", () => {

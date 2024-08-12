@@ -164,6 +164,10 @@ body {
 	gap: 10px;
 }
 
+#edition_mode {
+	display: none;
+}
+
 #edition_mode p {
 	background-color: black;
 	color: white;
@@ -386,10 +390,11 @@ footer nav ul {
 
 /* Modale script */
 dialog {
-	width: 35%;
+	width: 25%;
 	border-radius: 10px;
 	border-color: white;
 	padding: 2%;
+
 }
 
 .modale_wrapper {
@@ -410,15 +415,14 @@ dialog {
 }
 
 .modale_gallery {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
 	align-items: center;
 	justify-content: center;/*non-définitif*/
 	gap: 10px;
 }
 
 .modale_gallery figure {
-	width: 15%;
 	position: relative;
 	box-sizing: border-box;
 }
@@ -473,19 +477,19 @@ dialog {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 20px 0;
 	width: 100%;
 }
-/*
-#preview_image_container {
+
+#choose_new_photo {
 		background-color: #E8F1F6;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		padding: 20px 0;
+		gap: 10px;
 		width: 100%;
-}*/
+}
 
 .add_photo p {
 	background-color: #E8F1F6;

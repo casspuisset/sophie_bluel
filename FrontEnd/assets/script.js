@@ -128,18 +128,15 @@ function createWorks(works) {
  * Modale
 */
 async function modale() {
-    const worksResponse = await fetch('http://localhost:5678/api/works');
-    let works = await worksResponse.json();
+
 
     //ouvre la modale
     const dialog = document.querySelector("dialog"); //fenetre modale
     const showButton = document.querySelector(".edit_modale"); //bouton d'ouverture de la modale    
-
-
     showButton.addEventListener("click", () => {
         dialog.showModal();
         clearModale();
-        showModaleGallery(works);
+        showModaleGallery();
         
         //vérification de l'état du nav de la modale
         let submitButton = document.getElementById("submit_form");
@@ -152,7 +149,7 @@ async function modale() {
     const addButton = document.getElementById("add_photo_window"); //bouton pour changer la fenêtre de la modale
     addButton.addEventListener("click", () => {
         clearModale();
-        addPost(works);
+        addPost();
     });
 
     //soumet le formulaire au serveur
@@ -190,11 +187,11 @@ function previewImage() {
     if (file.type.match('image.*')) {
         const reader = new FileReader();
 
-        reader.addEventListener('load', function (event) {
-            const imageUrl = event.target.result;
+        reader.addEventListener('load', (e) => {
+            const imageUrl = e.target.result;
             const image = new Image();
 
-            image.addEventListener('load', function () {
+            image.addEventListener('load', () => {
                 imagePreviewContainer.innerHTML = '';
                 imagePreviewContainer.appendChild(image);
             });
@@ -206,9 +203,8 @@ function previewImage() {
         });
 
         reader.readAsDataURL(file);
-        /*let containerImage = document.getElementById(".choose_new_photo");
-        containerImage.style.display = "none";*/
-
+        let containerImage = document.getElementById("choose_new_photo");
+        containerImage.style.display = "none";
     }
 }
 
@@ -231,7 +227,10 @@ function determineId(categoryName) {
 }
 
 //fonction pour afficher les images dans la modale et crée les boutons poubelle
-async function showModaleGallery(works) {
+async function showModaleGallery() {
+
+    const worksResponse = await fetch('http://localhost:5678/api/works');
+    let works = await worksResponse.json();
 
     for (let i = 0; i < works.length; i++) {
         let article = works[i];
@@ -255,7 +254,7 @@ async function showModaleGallery(works) {
 }
 
 //affichage de la partie ajout d'image
-async function addPost(works) {
+async function addPost() {
 
     let previouslyButton = document.getElementById("previously");
     let addForm = document.getElementById("add_form");
@@ -271,20 +270,25 @@ async function addPost(works) {
         clearModale();
         submitButton.style.display = "none";
         nextButton.style.display = "block";
-        showModaleGallery(works);
+        showModaleGallery();
     })
 }
 
 //fonction pour effacer le contenu de la modale lors des interactions avec les boutons
 function clearModale() {
+
     let previouslyButton = document.getElementById('previously')
     let divModaleGallery = document.querySelector(".modale_gallery");
     let divFormGallery = document.getElementById("add_form");
-    //let divCategory = document.getElementById("add_category");
+    let imagePreviewContainer = document.getElementById('preview_image_container');
+    let chooseNewPhoto = document.getElementById("choose_new_photo");
+
     divModaleGallery.innerHTML = "";
-    //divCategory.style.display = "none";
     divFormGallery.style.display = "none";
     previouslyButton.style.visibility = "hidden";
+    imagePreviewContainer.innerHTML = '';
+    chooseNewPhoto.style.display = "flex";
+
 }
 
 //fonction d'envoi du formulaire de création d'image

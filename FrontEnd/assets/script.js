@@ -166,6 +166,14 @@ async function modale() {
         clearModale();
         dialog.close();
     });
+
+    dialog.addEventListener("click", (e) => {
+        var obj = document.querySelector(".modale_wrapper")
+        if(!obj.contains(e.target)){
+            clearModale();
+            dialog.close();
+        }
+    })
 };
 modale();
 //fonction globale de la modale

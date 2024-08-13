@@ -503,6 +503,8 @@ dialog {
 
 #submit_form {
 	display: none;
+	background-color: #A7A7A7;
+	border-color: #A7A7A7;
 }
 
 #add_photo_window {

@@ -204,7 +204,10 @@ function previewImage() {
 
         reader.readAsDataURL(file);
         let containerImage = document.getElementById("choose_new_photo");
+        let submitButton = document.getElementById("submit_form");
         containerImage.style.display = "none";
+        submitButton.style.backgroundColor = "#1D6154";
+        submitButton.style.borderColor = "#1D6154";
     }
 }
 
@@ -228,10 +231,9 @@ function determineId(categoryName) {
 
 //fonction pour afficher les images dans la modale et crée les boutons poubelle
 async function showModaleGallery() {
-
     const worksResponse = await fetch('http://localhost:5678/api/works');
     let works = await worksResponse.json();
-
+    clearModale();
     for (let i = 0; i < works.length; i++) {
         let article = works[i];
         let newFigure = document.createElement("figure");
@@ -255,7 +257,6 @@ async function showModaleGallery() {
 
 //affichage de la partie ajout d'image
 async function addPost() {
-
     let previouslyButton = document.getElementById("previously");
     let addForm = document.getElementById("add_form");
     let submitButton = document.getElementById("submit_form");
@@ -265,24 +266,30 @@ async function addPost() {
     addForm.style.display = "flex";
     submitButton.style.display = "flex";
     nextButton.style.display = "none";
-
-    previouslyButton.addEventListener("click", () => {
+    console.log("addPost appelé")
+    var i = 0;
+    previouslyButton.addEventListener("click", function previouslyButton() {
+        i++
         clearModale();
         submitButton.style.display = "none";
         nextButton.style.display = "block";
         showModaleGallery();
+        this.removeEventListener('click', previouslyButton)
+        console.log(i)
     })
 }
 
 //fonction pour effacer le contenu de la modale lors des interactions avec les boutons
 function clearModale() {
-
     let previouslyButton = document.getElementById('previously')
     let divModaleGallery = document.querySelector(".modale_gallery");
     let divFormGallery = document.getElementById("add_form");
     let imagePreviewContainer = document.getElementById('preview_image_container');
     let chooseNewPhoto = document.getElementById("choose_new_photo");
+    let submitButton = document.getElementById("submit_form");
 
+    submitButton.style.backgroundColor = "#A7A7A7";
+    submitButton.style.borderColor = "#A7A7A7";
     divModaleGallery.innerHTML = "";
     divFormGallery.style.display = "none";
     previouslyButton.style.visibility = "hidden";
@@ -359,9 +366,18 @@ async function deletePost(i, works) {
 async function changeWithPost() {
     const worksResponse = await fetch('http://localhost:5678/api/works');
     let works = await worksResponse.json();
+
+    //let addForm = document.getElementById("add_form");
+    let submitButton = document.getElementById("submit_form");
+    let nextButton = document.getElementById("add_photo_window");
+
+    //addForm.style.display = "block";
+    submitButton.style.display = "none";
+    nextButton.style.display = "block";
+
     clearModale();
     createWorks(works);
-    showModaleGallery(works);
+    showModaleGallery();
 }
 
 //fonction pour fermer la modale en cas de click en dehors

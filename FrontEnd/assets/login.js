@@ -34,7 +34,6 @@ function userIdentification() {
                     sessionStorage.setItem("token", data.token);
                     //redirection vers la page principale
                     window.location.replace("index.html");
-
                     console.log("Authentification réussi")
                 });
             } else if (response.status === 401) {
@@ -45,9 +44,8 @@ function userIdentification() {
                 console.log("error 404 - Adresse mail non-reconnue par le serveur")
             } else {
                 alert("Une erreur inconnue est survenue");
-                console.log(error.status)
             }
-        });
+        }).catch((error) => { throw (error) });
     });
 
 }

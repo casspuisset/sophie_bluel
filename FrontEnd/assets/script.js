@@ -275,15 +275,12 @@ async function addPost() {
     submitButton.style.display = "flex";
     nextButton.style.display = "none";
     console.log("addPost appelé")
-    var i = 0;
     previouslyButton.addEventListener("click", function previouslyButton() {
-        i++
         clearModale();
         submitButton.style.display = "none";
         nextButton.style.display = "block";
         showModaleGallery();
         this.removeEventListener('click', previouslyButton)
-        console.log(i)
     })
 }
 
@@ -330,7 +327,6 @@ async function postNewImage() {
         body: formData,
     }).then((response) => {
         if (response.status === 201) {
-            alert("L'image a été envoyée avec succès");
             return response.json();
         } else if (response.status === 400) {
             alert("Il y a une erreur avec les informations envoyées");
@@ -357,7 +353,7 @@ async function deletePost(i, works) {
         },
     }).then(async (response) => {
         if (response.status === 204) {
-            alert("La photo a bien été supprimée");
+            console.log("picture deleted")
         } else if (response.status === 401) {
             alert("Vous n'avez pas l'autorisation pour supprimer cette photo")
         } else if (response.status === 500) {
